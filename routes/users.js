@@ -12,8 +12,8 @@ router.post('/register', async function (ctx, next) {
   ctx.body = new ErrorModel('用户名重复')
 })
 
-router.post('/login', async function (ctx, next) {
-  const { username, password } = ctx.request.body
+router.get('/login', async function (ctx, next) {
+  const { username, password } = ctx.query
   const data = await login(username, password)
   if (data.username) {
     ctx.session.username = data.username
