@@ -12,13 +12,13 @@ router.post('/register', async function (ctx, next) {
   ctx.body = new ErrorModel('用户名重复')
 })
 
-router.get('/login', async function (ctx, next) {
-  const { username, password } = ctx.query
+router.post('/login', async function (ctx, next) {
+  const { username, password } = ctx.request.body
   const data = await login(username, password)
   if (data.username) {
     ctx.session.username = data.username
     ctx.session.realname = data.realname
-    ctx.body = new SuccessModel('登录成功')
+    ctx.body = new SuccessModel(data)
     return
   }
   ctx.body = new ErrorModel('登录失败')

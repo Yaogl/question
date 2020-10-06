@@ -19,7 +19,7 @@ const register = async (userInfo = {}) => {
     const realname = xss(userInfo.realname)
     const sql = `
         insert into users (username, password, realname)
-        values ('${username}', ${password}, '${realname}');
+        values (${username}, ${password}, '${realname}');
     `
     const insertData = await exec(sql)
     return {
