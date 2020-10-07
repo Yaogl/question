@@ -3,15 +3,22 @@ const xss = require('xss')
 const querystring = require('querystring')
 const json = require('koa-json')
 
-const getList = async (content) => {
-    const sql = `
+const getList = async (query) => {
+    query.page = query.page || 1;
+    query.size = query.size || 10;
+    let sql = `
         select * from question where 1=1
     `
-    if (content) {
-        sql+= ` username like '%${content}%'`
+    let totalSql = `select count(*) from question where 1=1`
+
+    if (query.content) {
+        sql+= ` and content like '%${query.content}%'`
+        totalSql+= ` and content like '%${query.content}%'`
     }
+    sql+= ` order by createtime desc limit ${ (query.page - 1) * query.size }, ${query.size}`
     const rows = await exec(sql)
-    return rows
+    const count = await exec(totalSql)
+    return { data: rows, total: count[0]['count(*)'] }
 }
 const addQuestion = async (question = {}) => {
     const content = xss(question.content)

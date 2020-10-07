@@ -5,12 +5,12 @@ const validLogin = require('../middleware/validLogin')
 router.prefix('/api/question')
 
 router.get('/list', validLogin, async (ctx, next) => {
-  const keyword = ctx.query.content || ''
-  const rows = await getList(keyword)
+  const rows = await getList(ctx.query)
   ctx.body = new SuccessModel(rows)
 })
 
 router.post('/add', validLogin, async function (ctx, next) {
+  ctx.request.body.author = ctx.session.username
   const data = await addQuestion(ctx.request.body)
   if (data.id) {
     return ctx.body = new SuccessModel(data)
