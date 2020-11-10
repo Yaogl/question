@@ -1,7 +1,7 @@
 const { ErrorModel } = require('../model/resModel')
 
 module.exports = async (ctx, next) => {
-    if (ctx.session.username) {
+    if (ctx.session && ctx.session.username) {
         await next()
         return
     }

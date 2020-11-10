@@ -9,7 +9,8 @@ if (env === 'dev') {
         user: 'root',
         password: 'root@123',
         port: '3306',
-        database: 'question'
+        database: 'question',
+        useConnectionPooling: true
     }
     REDIS_CONF = {
         port: '6379',
@@ -22,7 +23,8 @@ if (env === 'production') {
         user: 'root',
         password: 'root@123',
         port: '3306',
-        database: 'question'
+        database: 'question',
+        useConnectionPooling: true
     }
     REDIS_CONF = {
         port: '6379',
