@@ -7,9 +7,9 @@ const getList = async (query) => {
     query.page = query.page || 1;
     query.size = query.size || 10;
     let sql = `
-        select * from question where 1=1
+        select * from question where author='${query.username}'
     `
-    let totalSql = `select count(*) from question where 1=1`
+    let totalSql = `select count(*) from question where author='${query.username}'`
 
     if (query.content) {
         sql+= ` and content like '%${query.content}%'`

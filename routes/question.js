@@ -5,6 +5,7 @@ const validLogin = require('../middleware/validLogin')
 router.prefix('/api/question')
 
 router.get('/list', validLogin, async (ctx, next) => {
+  ctx.query.username = ctx.session.username
   const rows = await getList(ctx.query)
   ctx.body = new SuccessModel(rows)
 })
