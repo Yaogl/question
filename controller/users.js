@@ -13,6 +13,17 @@ const login = async (username, password) => {
     return rows[0] || {}
 }
 const register = async (userInfo = {}) => {
+    const findsql = `
+        select username from users where username=${escape(userInfo.username)}
+    `
+    const rows = await exec(findsql)
+    if (rows && rows.length) {
+        return {
+            code: -1,
+            message: '用户名已存在，请重新输入'
+        }
+    }
+
     const username = escape(xss(userInfo.username))
     let password = getPassword(xss(userInfo.password))
     password = escape(password)
